@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicio Opcional</title>
+  </head>
+  <body>
+    <h1>Juego de Piedra, Papel o Tijera</h1>
+    <button id="piedra" onclick="jugar('piedra')">Piedra</button>
+    <button id="papel" onclick="jugar('papel')">Papel</button>
+    <button id="tijera" onclick="jugar('tijera')">Tijera</button>
+    <div id="resultado"></div>
+
+    <script>
+      let opciones = ["piedra", "papel", "tijera"];
+      let puntajeJugador = 0;
+      let puntajePC = 0;
+
+      function jugar(jugador) {
+        // Desactivar botones
+        document.getElementById("piedra").disabled = true;
+        document.getElementById("papel").disabled = true;
+        document.getElementById("tijera").disabled = true;
+
+        // Generar jugada aleatoria de la PC
+        let jugadaPC = opciones[Math.floor(Math.random() * opciones.length)];
+
+        // Determinar el ganador
+        let resultado;
+        if (jugador === jugadaPC) {
+          resultado = "Empate";
+        } else if (
+          (jugador === "piedra" && jugadaPC === "tijera") ||
+          (jugador === "papel" && jugadaPC === "piedra") ||
+          (jugador === "tijera" && jugadaPC === "papel")
+        ) {
+          resultado = "Ganaste";
+          puntajeJugador++;
+        } else {
+          resultado = "Perdiste";
+          puntajePC++;
+        }
+
+        // Mostrar resultado
+        document.getElementById("resultado").innerHTML = `
+          Jugador eligió ${jugador}.<br>
+          PC eligió ${jugadaPC}.<br>
+          Resultado: ${resultado}.<br>
+          Puntaje: Jugador ${puntajeJugador} - ${puntajePC} PC
+        `;
+
+        // Preguntar si se quiere jugar de nuevo después de 2 segundos
+        setTimeout(function () {
+          let jugarDeNuevo = confirm("¿Quieres jugar de nuevo?");
+          if (jugarDeNuevo) {
+            // Reactivar botones
+            document.getElementById("piedra").disabled = false;
+            document.getElementById("papel").disabled = false;
+            document.getElementById("tijera").disabled = false;
+
+            // Limpiar resultado
+            document.getElementById("resultado").innerHTML = "";
+          }
+        }, 2000);
+      }
+    </script>
+  </body>
+</html>
